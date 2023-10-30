@@ -131,3 +131,37 @@ https://www.runoob.com/git/git-branch.html
 如果想一步完成，采用git pull指令
 
 `git pull [远程主机名] [远程分支名]:[本地分支名]`
+
+## 错误记录
+
+### 合并冲突、拉取远程
+刚刚将本笔记上传至远程仓库时出现问题，首先在上一级文件夹里进行了`git init`配置，然后进行跟踪和提交`add commit`，随后添加远程仓库连接:`git remote [简称][url]`，最后即可`git push`。
+
+但是`git push`的时候，遇到问题，显示错误：
+`error: failed to push some refs to 'github.com:Void0011/Linux_Study_Knowledge.git'`
+
+该错误代表在你尝试推送更改到远程仓库时，但远程仓库中有更新，你的本地仓库没有同步这些更新。需要使用`git pull`拉取远程仓库的更改。
+
+但是使用`git pull`又出现了`Need to specify how to reconcile divergent branches.`错误代表在你尝试推送更改到远程仓库时，但远程仓库中有更新，你的本地仓库没有同步这些更新。解决这个问题的方法是告诉 Git 你要使用哪种合并策略。常见的合并策略有两种：`merge` 和 `rebase`。你可以选择其中一种来合并分支。下面是如何使用这两种策略：
+1、使用合并（merge）策略：
+
+使用合并策略将两个分支合并为一个新的提交，这个提交包含了两个分支的更改。执行以下命令：
+
+`git pull origin main --no-rebase`
+`--no-rebase`选项告诉 Git 使用合并策略而不是重新基于（rebase）策略。
+
+2、使用重新基于（rebase）策略：
+
+使用重新基于策略将你的本地更改放在远程更改之后，这会使提交历史更加线性。执行以下命令：
+
+`git pull --rebase origin main`
+这将拉取远程更改并将你的本地更改重新基于它们。
+
+最后按照流程应该可以push了，但是又显示：
+`
+    kex_exchange_identification: Connection closed by remote host
+    Connection closed by 20.205.243.166 port 22
+    fatal: Could not read from remote repository.
+    Please make sure you have the correct access rights
+    and the repository exists.
+`
